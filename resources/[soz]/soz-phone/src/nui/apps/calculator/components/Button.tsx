@@ -11,7 +11,7 @@ const ButtonCalculator = ({
     <button
         onClick={() => handleChange(calculatorInput)}
         className={classNames(
-            'w-20 h-20  items-center rounded-full text-3xl flex justify-center text-white font-semibold',
+            'w-20 h-20  items-center rounded-full text-3xl flex justify-center text-white font-semibold outline-none focus:outline-none',
             'hover:bg-opacity-50',
             {
                 'bg-slate-900': calculatorInput.type === 'number',

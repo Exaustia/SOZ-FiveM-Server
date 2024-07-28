@@ -66,9 +66,9 @@ export const Calculator = memo(() => {
 
     const handleChange = useCallback(
         (key: ICalculatorI) => {
-            if (operatorsInput.includes(key.key) && isOperator(calculatorInput)) {
-                return;
-            }
+            if (operatorsInput.includes(key.key))
+                if (isOperator(calculatorInput) || calculatorInput.length === 0) return;
+
             switch (key.name) {
                 case 'equal':
                     setShowResult(true);

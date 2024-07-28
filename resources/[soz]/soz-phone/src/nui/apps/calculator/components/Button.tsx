@@ -1,6 +1,8 @@
 import { ICalculatorI } from '@typings/calculator';
 import classNames from 'classnames';
 
+import generateIcon from '../utils/generateIcon';
+
 const ButtonCalculator = ({
     handleChange,
     calculatorInput,
@@ -20,7 +22,11 @@ const ButtonCalculator = ({
         )}
         key={calculatorInput.key}
     >
-        {calculatorInput.type === 'number' ? <span>{calculatorInput.ico as string}</span> : <calculatorInput.ico />}
+        {calculatorInput.type === 'number' ? (
+            <span>{calculatorInput.key as string}</span>
+        ) : (
+            <div className="flex justify-center items-center">{generateIcon(calculatorInput.name)}</div>
+        )}
     </button>
 );
 

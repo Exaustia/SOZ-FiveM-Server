@@ -37,7 +37,7 @@ export const TopHeaderBar: FunctionComponent = memo(() => {
     }, [notifications, setBarUncollapsed]);
 
     const color = () => {
-        if (['/', '/emergency', '/weather', '/game-tetris', '/snake'].includes(pathname)) {
+        if (['/', '/emergency', '/weather', '/game-tetris', '/snake', '/calculator'].includes(pathname)) {
             return 'text-white';
         } else if (pathname === '/call' || (call && pathname.includes('/phone'))) {
             return 'text-white';

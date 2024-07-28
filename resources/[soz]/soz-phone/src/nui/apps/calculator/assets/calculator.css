@@ -1,0 +1,10 @@
+@font-face {
+  font-family: "Roboto";
+  src: url(../assets/Roboto-Medium.ttf);
+}
+
+body {
+  font-family: "Roboto", serif;
+  font-weight: 500;
+  font-size: 14px;
+}

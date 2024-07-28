@@ -34,15 +34,15 @@ export const Calculator = memo(() => {
 
                 const fnOperator = Object.values(CalculatorInterface).find((item) => item.key === operator);
 
-                if (!fnOperator || !fnOperator.function) return;
-                element = 0;
+                if (!fnOperator && !fnOperator.function) return;
+                let currentResult = 0;
                 if (fnOperator.key === '%') {
-                    element = (fnOperator.function as (a: number) => number)(element);
+                    currentResult = (fnOperator.function as (a: number) => number)(element);
                 } else {
-                    element = (fnOperator.function as (a: number, b: number) => number)(element, parseFloat(elm));
+                    currentResult = (fnOperator.function as (a: number, b: number) => number)(element, parseFloat(elm));
                 }
-
-                return element;
+                element = currentResult;
+                return currentResult;
             });
             setResultCalculation(calculations.pop() || 0);
         },
@@ -66,9 +66,9 @@ export const Calculator = memo(() => {
 
     const handleChange = useCallback(
         (key: ICalculatorI) => {
-            if (operatorsInput.includes(key.key))
-                if (isOperator(calculatorInput) || calculatorInput.length === 0) return;
-
+            if (operatorsInput.includes(key.key) && isOperator(calculatorInput)) {
+                return;
+            }
             switch (key.name) {
                 case 'equal':
                     setShowResult(true);

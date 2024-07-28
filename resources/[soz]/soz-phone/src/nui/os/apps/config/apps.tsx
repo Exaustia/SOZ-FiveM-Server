@@ -4,6 +4,7 @@ import React from 'react';
 import { BankApp } from '../../../apps/bank';
 import BankIcon from '../../../apps/bank/icon';
 import { CalculatorApp } from '../../../apps/calculator';
+import CalculatorIcon from '../../../apps/calculator/icon';
 import CameraApp from '../../../apps/camera/components/CameraApp';
 import CameraIcon from '../../../apps/camera/icon';
 import { ContactsApp } from '../../../apps/contacts';
@@ -172,6 +173,6 @@ export const APPS: IAppConfig[] = [
         nameLocale: 'APPS_CALCULATOR',
         path: '/calculator',
         component: <CalculatorApp />,
-        icon: SnakeIcon,
+        icon: CalculatorIcon,
     },
 ];

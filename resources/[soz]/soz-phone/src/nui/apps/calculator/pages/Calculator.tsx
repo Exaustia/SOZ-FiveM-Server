@@ -21,17 +21,13 @@ const Calculator = () => {
             if (operatorsInput.includes(key.key)) {
                 if (displayCalculation && calculatorInput !== '') {
                     const result = calculateResult(displayCalculation, parseFloat(calculatorInput), operator);
-
                     setDisplayTotal(result);
                     setDisplayCalculation(result);
-                } else {
-                    setDisplayCalculation((prev) => (calculatorInput ? parseInt(calculatorInput) : prev));
-                }
+                } else setDisplayCalculation((prev) => (calculatorInput ? parseInt(calculatorInput) : prev));
+
                 setOperator(key.key);
                 setCalculatorInput('');
-            } else {
-                setCalculatorInput(calculatorInput + key.key);
-            }
+            } else setCalculatorInput(calculatorInput + key.key);
         },
         [calculatorInput, displayCalculation, operator],
     );
@@ -61,9 +57,7 @@ const Calculator = () => {
 
     const handleChange = useCallback(
         (key: ICalculatorI) => {
-            if (operatorsInput.includes(key.key) && isOperator(calculatorInput)) {
-                return;
-            }
+            if (operatorsInput.includes(key.key) && isOperator(calculatorInput)) return;
 
             switch (key.name) {
                 case 'equal':
@@ -98,9 +92,7 @@ const Calculator = () => {
 
     useEffect(() => {
         window.addEventListener('keydown', handleKeyBoard, false);
-        return () => {
-            window.removeEventListener('keydown', handleKeyBoard);
-        };
+        return () => window.removeEventListener('keydown', handleKeyBoard);
     }, [handleKeyBoard]);
 
     return (

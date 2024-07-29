@@ -1,8 +1,6 @@
 import { ICalculatorI } from '@typings/calculator';
 import classNames from 'classnames';
 
-import generateIcon from '../utils/generateIcon';
-
 const ButtonCalculator = ({
     handleChange,
     calculatorInput,
@@ -13,20 +11,16 @@ const ButtonCalculator = ({
     <button
         onClick={() => handleChange(calculatorInput)}
         className={classNames(
-            'w-20 h-20  items-center rounded-full text-3xl flex justify-center text-white font-semibold outline-none focus:outline-none',
+            'rounded-full p-0 h-20 w-20 text-3xl text-white font-semibold border-none inline-block',
             'hover:bg-opacity-50',
             {
-                'bg-slate-900': calculatorInput.type === 'number',
-                'bg-[#1A1A1A]': calculatorInput.type === 'function',
+                'bg-slate-900 ': calculatorInput.type === 'number',
+                'bg-[#1A1A1A] ': calculatorInput.type === 'function',
             },
         )}
         key={calculatorInput.key}
     >
-        {calculatorInput.type === 'number' ? (
-            <span>{calculatorInput.key as string}</span>
-        ) : (
-            <div className="flex justify-center items-center">{generateIcon(calculatorInput.name)}</div>
-        )}
+        {calculatorInput.icon}
     </button>
 );
 

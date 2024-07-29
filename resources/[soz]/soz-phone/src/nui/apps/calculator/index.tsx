@@ -4,7 +4,7 @@ import { Route, Routes } from 'react-router-dom';
 
 import { AppWrapper } from '../../ui/components/AppWrapper';
 import { FullPage } from '../../ui/layout/FullPage';
-import { Calculator } from './pages/Calculator';
+import Calculator from './pages/Calculator';
 
 export const CalculatorApp = () => {
     return (

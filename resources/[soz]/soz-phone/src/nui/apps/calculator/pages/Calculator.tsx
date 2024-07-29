@@ -6,22 +6,23 @@ import { AppContent } from '../../../ui/components/AppContent';
 import ButtonCalculator from '../components/Button';
 import { calculateResult } from '../utils/calculateResult';
 import { CalculatorGrid, CalculatorInterface, operatorsInput } from '../utils/constants';
+import isOperator from '../utils/isOperator';
 
-export const Calculator = memo(() => {
+const Calculator = () => {
     const [calculatorInput, setCalculatorInput] = useState<string>('');
     const [displayCalculation, setDisplayCalculation] = useState<number>();
     const [displayLastCalculation, setDisplayLastCalculation] = useState<string>();
-    const [total, setTotal] = useState<number>(0);
+    const [displayTotal, setDisplayTotal] = useState<number>(0);
     const [showResult, setShowResult] = useState<boolean>(false);
     const [operator, setOperator] = useState<string>('');
 
-    const inputCalcuation = useCallback(
+    const handleCalculation = useCallback(
         (key: ICalculatorI) => {
             if (operatorsInput.includes(key.key)) {
                 if (displayCalculation && calculatorInput !== '') {
                     const result = calculateResult(displayCalculation, parseFloat(calculatorInput), operator);
 
-                    setTotal(result);
+                    setDisplayTotal(result);
                     setDisplayCalculation(result);
                 } else {
                     setDisplayCalculation((prev) => (calculatorInput ? parseInt(calculatorInput) : prev));
@@ -35,55 +36,52 @@ export const Calculator = memo(() => {
         [calculatorInput, displayCalculation, operator],
     );
 
-    const removeLastElement = useCallback(() => {
+    const handleBackspace = useCallback(() => {
         if (calculatorInput === '') return;
         setCalculatorInput(calculatorInput.slice(0, -1));
     }, [calculatorInput]);
 
-    const lastElmIsOperator = useCallback(() => calculatorInput.slice(-1).match(/[-+*/%]/g), [calculatorInput]);
-
-    const clearCalculation = useCallback(() => {
+    const handleClear = useCallback(() => {
         setCalculatorInput('');
         setShowResult(false);
         setOperator('');
         setDisplayCalculation(undefined);
-        setDisplayLastCalculation('');
-        setTotal(0);
+        setDisplayTotal(0);
     }, []);
 
-    const equalCalculation = useCallback(() => {
+    const handleEqual = useCallback(() => {
         if (!displayCalculation || calculatorInput === '' || showResult) return;
         const result = calculateResult(displayCalculation, parseFloat(calculatorInput), operator);
-        setTotal(result);
+        setDisplayTotal(result);
         setShowResult(true);
         setCalculatorInput('');
-        setDisplayCalculation(result);
         setDisplayLastCalculation(`${displayCalculation} ${operator} ${calculatorInput}`);
-    }, [calculatorInput, displayCalculation, operator]);
+        setDisplayCalculation(result);
+    }, [calculatorInput, displayCalculation, operator, showResult]);
 
     const handleChange = useCallback(
         (key: ICalculatorI) => {
-            if (operatorsInput.includes(key.key) && lastElmIsOperator()) {
+            if (operatorsInput.includes(key.key) && isOperator(calculatorInput)) {
                 return;
             }
 
             switch (key.name) {
                 case 'equal':
-                    equalCalculation();
+                    handleEqual();
                     break;
                 case 'clear':
-                    clearCalculation();
+                    handleClear();
                     break;
                 case 'backspace':
-                    removeLastElement();
+                    handleBackspace();
                     break;
                 default:
                     setShowResult(false);
-                    inputCalcuation(key);
+                    handleCalculation(key);
                     break;
             }
         },
-        [inputCalcuation, lastElmIsOperator, removeLastElement],
+        [calculatorInput, handleEqual, handleClear, handleBackspace, handleCalculation],
     );
 
     const handleKeyBoard = useCallback(
@@ -104,18 +102,29 @@ export const Calculator = memo(() => {
             window.removeEventListener('keydown', handleKeyBoard);
         };
     }, [handleKeyBoard]);
+
     return (
-        <AppContent scrollable={false}>
-            <div className={cn('w-full h-full flex flex-col justify-end max-w-[383px]')}>
-                <div className="w-full flex flex-col items-end justify-end overflow-hidden">
-                    <span className={cn('font-semibold transition-all min-h-9 text-slate-400 text-2xl scale-90')}>
-                        {showResult ? displayLastCalculation : displayCalculation ? displayCalculation + operator : ''}
-                    </span>
-                    <span className={cn('font-semibold transition-all min-h-9 h-9 text-white text-3xl')}>
-                        {showResult ? total : calculatorInput}
-                    </span>
+        <AppContent>
+            <div className={cn('w-full h-full flex flex-col justify-center m-auto max-w-[370px]')}>
+                <div className={cn('w-full flex flex-col')}>
+                    <div className="pt-10 flex justify-center">
+                        <div className="w-full flex flex-col items-end justify-end overflow-hidden">
+                            <span
+                                className={cn('font-semibold transition-all min-h-9 text-slate-400 text-2xl scale-90')}
+                            >
+                                {showResult
+                                    ? displayLastCalculation
+                                    : displayCalculation
+                                    ? displayCalculation + operator
+                                    : ''}
+                            </span>
+                            <span className={cn('font-semibold transition-all min-h-9 text-white text-3xl')}>
+                                {showResult ? displayTotal : calculatorInput}
+                            </span>
+                        </div>
+                    </div>
                 </div>
-                <div className="grid gap-y-4 mt-8">
+                <div className="grid m-auto gap-4 mt-8">
                     {CalculatorGrid.map((item, key) => (
                         <div key={key} className={cn('grid grid-cols-4 m-auto gap-x-4')}>
                             {item.map((i, _index) => {
@@ -129,4 +138,6 @@ export const Calculator = memo(() => {
             </div>
         </AppContent>
     );
-});
+};
+
+export default memo(Calculator);

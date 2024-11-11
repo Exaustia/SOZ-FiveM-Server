@@ -84,7 +84,13 @@ export class ItemProvider {
     }
 
     @OnEvent(ClientEvent.ITEM_UMBRELLA_TOGGLE)
-    async onUmbrellaToggle(): Promise<void> {
+    async onUmbrellaToggle(itemName: string): Promise<void> {
+        const models = {
+            ['umbrella']: 'p_amb_brolly_01',
+            ['umbrella_white']: 'p_amb_brolly_02',
+            ['umbrella_black']: 'p_amb_brolly_03',
+        };
+
         this.animationService.toggleAnimation({
             base: {
                 dictionary: 'amb@world_human_drinking@coffee@male@base',
@@ -99,7 +105,7 @@ export class ItemProvider {
             props: [
                 {
                     bone: 57005,
-                    model: 'p_amb_brolly_01',
+                    model: models[itemName],
                     position: [0.12, 0.005, 0.0],
                     rotation: [280.0, 10.0, 350.0],
                 },

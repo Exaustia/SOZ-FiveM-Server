@@ -26,7 +26,10 @@ export class ItemToolsProvider {
             TriggerClientEvent(ClientEvent.ITEM_UMBRELLA_TOGGLE, source);
         });
 
-        this.item.setItemUseCallback('walkstick', source => {
+        this.item.setItemUseCallback('zecalthon_chair', (source) => {
+            TriggerClientEvent(ClientEvent.ITEM_ZECALTHON_CHAIR, source);
+        });
+        this.item.setItemUseCallback('walkstick', (source) => {
             TriggerClientEvent(ClientEvent.ITEM_WALK_STICK_TOGGLE, source);
         });
 

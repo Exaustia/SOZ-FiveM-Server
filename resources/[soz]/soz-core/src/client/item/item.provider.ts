@@ -74,7 +74,7 @@ export class ItemProvider {
             },
             props: [
                 {
-                    bone: 57005,
+                    bone: 57004,
                     model: 'prop_cs_protest_sign_nothappy',
                     position: [0.2, 0.3, 0.03],
                     rotation: [280.0, 10.0, 350.0],
@@ -102,6 +102,30 @@ export class ItemProvider {
                     model: 'p_amb_brolly_01',
                     position: [0.12, 0.005, 0.0],
                     rotation: [280.0, 10.0, 350.0],
+                },
+            ],
+        });
+    }
+
+    @OnEvent(ClientEvent.ITEM_ZECALTHON_CHAIR)
+    async onZecalthonChairToggle(): Promise<void> {
+        this.animationService.toggleAnimation({
+            base: {
+                dictionary: 'switch@michael@sitting',
+                name: 'idle',
+                options: {
+                    repeat: true,
+                    freezeLastFrame: false,
+                    onlyUpperBody: false,
+                    enablePlayerControl: false,
+                },
+            },
+            props: [
+                {
+                    bone: 84,
+                    model: 'hei_prop_hei_skid_chair',
+                    position: [-0.05, -0.5, -0.58],
+                    rotation: [0, 0, 180],
                 },
             ],
         });
